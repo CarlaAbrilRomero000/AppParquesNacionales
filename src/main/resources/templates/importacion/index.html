@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Importación CSV')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <h2 class="mb-4 text-success-emphasis">
+                <i class="bi bi-filetype-csv me-2"></i>Importación de archivos CSV
+            </h2>
+
+            <!-- Alertas de éxito / error -->
+            <div th:replace="~{fragments/layout :: alertas}"></div>
+
+            <!-- Mensaje con el XML recién generado -->
+            <div th:if="${xmlGenerado}" class="alert alert-info shadow-sm">
+                <i class="bi bi-file-earmark-code me-2"></i>
+                Se generó el archivo XML: <strong th:text="${xmlGenerado}">archivo.xml</strong>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted">
+                        Seleccioná un archivo <strong>.csv</strong> y presioná
+                        <em>Importar</em>. El sistema procesará el archivo y generará
+                        un XML con los datos.
+                    </p>
+
+                    <form th:action="@{/importacion}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="archivo" class="form-label">Archivo CSV</label>
+                            <input type="file" class="form-control" id="archivo"
+                                   name="archivo" accept=".csv" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-upload me-1"></i>Importar
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Último XML generado (persistente entre importaciones) -->
+            <div th:if="${ultimoXml}" class="mt-4 text-muted small">
+                <i class="bi bi-clock-history me-1"></i>
+                Último XML generado: <strong th:text="${ultimoXml}">ultimo.xml</strong>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

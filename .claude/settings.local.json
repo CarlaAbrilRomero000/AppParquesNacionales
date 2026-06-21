@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Recurse -Force src | Select-Object FullName; \"---GITIGNORE---\"; Get-Content .gitignore)",
+      "PowerShell($mvn = Get-Command mvn -ErrorAction SilentlyContinue; if \\($mvn\\) { \"mvn: $\\($mvn.Source\\)\" } else { \"mvn NOT found\" }; $java = Get-Command java -ErrorAction SilentlyContinue; if \\($java\\) { java -version } else { \"java NOT found\" })",
+      "PowerShell(mvn *)",
+      "PowerShell($mvn = \\(Get-Command mvn -ErrorAction SilentlyContinue\\); if \\($mvn\\) { \"mvn: \" + $mvn.Source } else { \"no mvn en PATH\" }; if \\(Test-Path \"C:\\\\Users\\\\secon\\\\OneDrive\\\\Escritorio\\\\PruebaApp\\\\mvnw.cmd\"\\) { \"mvnw presente\" } else { \"sin mvnw\" }; \"--- target ---\"; Get-ChildItem \"C:\\\\Users\\\\secon\\\\OneDrive\\\\Escritorio\\\\PruebaApp\\\\target\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(cmd /c \"mvn -q -B clean compile -f C:\\\\Users\\\\secon\\\\OneDrive\\\\Escritorio\\\\PruebaApp\\\\pom.xml\" 2>&1 | Select-Object -Last 40; \"EXIT=$LASTEXITCODE\")",
+      "PowerShell($d = Get-Command docker -ErrorAction SilentlyContinue; if \\($d\\) { \"docker: \" + $d.Source; docker version --format '{{.Server.Version}}' } else { \"no docker en PATH\" })",
+      "PowerShell(docker compose up *)",
+      "PowerShell(docker compose *)"
+    ]
+  }
+}

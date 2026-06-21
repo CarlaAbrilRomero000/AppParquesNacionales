@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+xml-generados/
+.git/
+.gitignore
+README.md

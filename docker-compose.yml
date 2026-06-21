@@ -1,0 +1,47 @@
+# ============================================================
+#  Sistema de Parques Nacionales
+#  Levanta SQL Server y la aplicación Spring Boot.
+#  Uso:  docker compose up
+#  App:  http://localhost:8080
+# ============================================================
+services:
+
+  # ---------- Base de datos SQL Server ----------
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: parques-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Parques2024!"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"Parques2024!\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+
+  # ---------- Aplicación Spring Boot ----------
+  app:
+    build: .
+    container_name: parques-app
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      DB_HOST: sqlserver
+      DB_PORT: "1433"
+      DB_NAME: ParqueNacionalesDB
+      DB_USER: sa
+      DB_PASSWORD: "Parques2024!"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./xml-generados:/app/xml-generados
+
+volumes:
+  sqlserver-data:

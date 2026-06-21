@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Información del sistema')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+    <h2 class="mb-4 text-success-emphasis">
+        <i class="bi bi-info-circle-fill me-2"></i>Información del sistema
+    </h2>
+
+    <div class="row g-4">
+        <!-- Tecnologías -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <i class="bi bi-stack me-1"></i>Tecnologías
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-cup-hot me-2 text-success"></i>Java + Spring Boot</li>
+                    <li class="list-group-item"><i class="bi bi-file-code me-2 text-success"></i>Thymeleaf (vistas)</li>
+                    <li class="list-group-item"><i class="bi bi-bootstrap me-2 text-success"></i>Bootstrap 5 + Bootstrap Icons</li>
+                    <li class="list-group-item"><i class="bi bi-database me-2 text-success"></i>SQL Server + Stored Procedures</li>
+                    <li class="list-group-item"><i class="bi bi-box-seam me-2 text-success"></i>Docker / docker compose</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Arquitectura -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <i class="bi bi-diagram-3 me-1"></i>Arquitectura en capas
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-2 text-center">
+                        <span class="badge bg-success-subtle text-success-emphasis py-2">Controller</span>
+                        <i class="bi bi-arrow-down text-muted"></i>
+                        <span class="badge bg-success-subtle text-success-emphasis py-2">Service</span>
+                        <i class="bi bi-arrow-down text-muted"></i>
+                        <span class="badge bg-success-subtle text-success-emphasis py-2">Repository</span>
+                        <i class="bi bi-arrow-down text-muted"></i>
+                        <span class="badge bg-success-subtle text-success-emphasis py-2">Stored Procedures (SQL Server)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success mt-4 shadow-sm">
+        <i class="bi bi-mortarboard-fill me-2"></i>
+        Trabajo Práctico de Bases de Datos — Sistema de Parques Nacionales.
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
