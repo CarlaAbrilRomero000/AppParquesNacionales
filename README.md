@@ -22,11 +22,11 @@ Controller  →  Service  →  Repository  →  Stored Procedures (SQL Server)
 ```
 src/main/java/org/example/parques
 ├── ParquesApplication.java        # main
-├── config/DatabaseInitializer.java# crea BD, tabla y SP al arrancar
-├── controller/                    # HomeController, TipoParqueController, ImportacionController
+├── config/DatabaseInitializer.java# verifica/crea esquema, tabla TipoParque y SP al arrancar
+├── controller/                    # HomeController, ParqueController, TipoParqueController, ImportacionController
 ├── service/                       # TipoParqueService, ImportacionService
-├── repository/                    # TipoParqueRepository (JdbcTemplate)
-├── model/                         # TipoParque
+├── repository/                    # TipoParqueRepository, ParqueRepository (JdbcTemplate)
+├── model/                         # TipoParque, Parque
 └── exception/                     # ReglaNegocioException
 src/main/resources
 ├── application.properties
@@ -60,54 +60,50 @@ docker compose down
 
 ## 💻 Ejecución desde IntelliJ IDEA (SQL Server local, sin Docker)
 
-Esta es la opción recomendada si ya tenés **SQL Server instalado** en tu máquina y
-querés ver los datos en **SQL Server Management Studio (SSMS)**.
+Esta es la opción recomendada si ya tenés **SQL Server instalado** en tu máquina con
+la base **`ParquesNacionalesDB`** ya cargada. Por defecto la app se conecta con
+**Autenticación de Windows** (sin usuario ni contraseña) a esa base existente.
 
 ```
-Chrome → http://localhost:8080 → Spring Boot (IntelliJ) → localhost:1433 → SQL Server local
+Chrome → http://localhost:8080 → Spring Boot (IntelliJ) → localhost:1433 → SQL Server local (Windows Auth)
 ```
 
-### Paso 1 — Configurar SQL Server local (una sola vez)
-Por defecto SQL Server suele tener el **TCP/IP apagado** y el login **`sa` deshabilitado**,
-y el driver JDBC de Java necesita TCP. Para dejar todo listo automáticamente:
+### Paso 1 — DLL de autenticación de Windows (una sola vez)
+Para usar autenticación de Windows, el driver JDBC necesita la librería nativa
+**`mssql-jdbc_auth-12.6.4.x64.dll`** (ya incluida en la carpeta `lib/` del proyecto).
+El JVM la busca en el `java.library.path`, que en Windows incluye las carpetas del
+**PATH del usuario**. Por eso la carpeta `lib/` del proyecto se agregó al PATH de
+usuario; si clonás el repo en otra máquina, agregá esa carpeta al PATH:
 
-> Clic derecho en **`setup-sqlserver-local.ps1`** → **Ejecutar con PowerShell**
-> (aceptar permisos de administrador).
+```powershell
+[Environment]::SetEnvironmentVariable("Path",
+  [Environment]::GetEnvironmentVariable("Path","User") + ";<ruta-al-proyecto>\lib", "User")
+```
 
-El script habilita TCP/IP en el puerto **1433**, activa la autenticación mixta,
-reinicia el servicio y habilita el login `sa` con la contraseña `Parques2024!`.
-
-<details>
-<summary>Alternativa manual (si preferís no usar el script)</summary>
-
-1. **SQL Server Configuration Manager** → *Protocolos de MSSQLSERVER* → habilitar **TCP/IP**
-   → en *IP Addresses → IPAll* poner **TCP Port = 1433** → reiniciar el servicio.
-2. En **SSMS** (conectado con autenticación de Windows):
-   - *Propiedades del servidor → Seguridad* → **modo de autenticación mixto** → reiniciar servicio.
-   - Habilitar `sa`:
-     ```sql
-     ALTER LOGIN [sa] ENABLE;
-     ALTER LOGIN [sa] WITH PASSWORD = N'Parques2024!';
-     ```
-</details>
+(luego reiniciá IntelliJ para que tome el PATH nuevo). Alternativa: copiar la DLL
+dentro de `<JDK>\bin` o agregar en la *Run Configuration* la opción de VM
+`-Djava.library.path=<ruta-al-proyecto>\lib`.
 
 ### Paso 2 — Ejecutar la aplicación
 1. Abrir el proyecto en IntelliJ (lo detecta como proyecto Maven).
 2. Ejecutar la clase `ParquesApplication`.
-   - Al arrancar, la app **crea sola** la base `ParqueNacionalesDB`, la tabla y los
-     procedimientos almacenados (ver `DatabaseInitializer`).
-3. Abrir `http://localhost:8080`.
+   - Al arrancar se conecta a la base **`ParquesNacionalesDB`** ya existente. El
+     `DatabaseInitializer` solo verifica/crea (si faltan) el esquema, la tabla
+     `TipoParque` y los procedimientos almacenados; **no toca** los datos de
+     `parques.Parque`.
+3. Abrir `http://localhost:8080` → tarjeta **Listado de Parques** (o menú *Parques*).
 
 ### Ver los datos en SSMS
-Conectate a `localhost` (autenticación de Windows, o SQL con `sa` / `Parques2024!`) y consultá:
+Conectate a `localhost` con **autenticación de Windows** y consultá:
 ```sql
-SELECT * FROM ParqueNacionalesDB.parques.TipoParque;
+SELECT * FROM ParquesNacionalesDB.parques.Parque;
 ```
-Cada alta/baja/modificación que hagas desde la web se refleja ahí al instante.
 
-> Las credenciales y el host se pueden cambiar con variables de entorno
-> (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) o editando
-> `src/main/resources/application.properties`.
+> El modo de autenticación, host y base se pueden cambiar con variables de entorno
+> (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_INTEGRATED_SECURITY`, `DB_USER`, `DB_PASSWORD`)
+> o editando `src/main/resources/application.properties`.
+> Para usar autenticación SQL en vez de Windows: `DB_INTEGRATED_SECURITY=false` +
+> `DB_USER`/`DB_PASSWORD`.
 
 ## 📋 Funcionalidades
 
@@ -128,10 +124,12 @@ como alertas de Bootstrap. La eliminación pide confirmación.
 
 ## 🔑 Datos de conexión por defecto
 
-| Parámetro  | Valor          |
-|------------|----------------|
-| Host       | `localhost`    |
-| Puerto     | `1433`         |
-| Base       | `ParqueNacionalesDB` |
-| Usuario    | `sa`           |
-| Contraseña | `Parques2024!` |
+| Parámetro      | Valor (local / IntelliJ)    |
+|----------------|-----------------------------|
+| Host           | `localhost`                 |
+| Puerto         | `1433`                      |
+| Base           | `ParquesNacionalesDB`       |
+| Autenticación  | Windows (`integratedSecurity=true`) |
+| Usuario / Clave| — (no aplica con Windows Auth) |
+
+> En Docker se usa autenticación SQL (`sa` / `Parques2024!`, base `ParqueNacionalesDB`).

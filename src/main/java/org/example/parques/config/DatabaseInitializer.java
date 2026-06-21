@@ -40,13 +40,16 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Value("${app.db.port:1433}")
     private String port;
 
-    @Value("${app.db.name:ParqueNacionalesDB}")
+    @Value("${app.db.name:ParquesNacionalesDB}")
     private String dbName;
 
-    @Value("${spring.datasource.username}")
+    @Value("${app.db.integrated-security:true}")
+    private boolean integratedSecurity;
+
+    @Value("${spring.datasource.username:}")
     private String usuario;
 
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.password:}")
     private String password;
 
     public DatabaseInitializer(JdbcTemplate jdbcTemplate) {
@@ -66,11 +69,15 @@ public class DatabaseInitializer implements CommandLineRunner {
      */
     private void crearBaseDeDatosSiNoExiste() throws InterruptedException {
         String urlMaster = "jdbc:sqlserver://" + host + ":" + port
-                + ";databaseName=master;encrypt=true;trustServerCertificate=true";
+                + ";databaseName=master;integratedSecurity=" + integratedSecurity
+                + ";encrypt=true;trustServerCertificate=true";
 
         int intentosMaximos = 30;
         for (int intento = 1; intento <= intentosMaximos; intento++) {
-            try (Connection con = DriverManager.getConnection(urlMaster, usuario, password);
+            // Con autenticación de Windows no se pasan credenciales; con SQL sí.
+            try (Connection con = integratedSecurity
+                            ? DriverManager.getConnection(urlMaster)
+                            : DriverManager.getConnection(urlMaster, usuario, password);
                  Statement st = con.createStatement()) {
                 st.execute("IF DB_ID('" + dbName + "') IS NULL CREATE DATABASE [" + dbName + "]");
                 log.info("Base de datos '{}' verificada/creada.", dbName);

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Parques')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 text-success-emphasis">
+            <i class="bi bi-tree-fill me-2"></i>Listado de Parques
+        </h2>
+    </div>
+
+    <!-- Alertas de éxito / error -->
+    <div th:replace="~{fragments/layout :: alertas}"></div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead class="table-success">
+                    <tr>
+                        <th scope="col" style="width: 70px;">ID</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Ubicación</th>
+                        <th scope="col" class="text-end">Superficie (ha)</th>
+                        <th scope="col">Tipo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="parque : ${parques}">
+                        <td th:text="${parque.idParque}">1</td>
+                        <td th:text="${parque.codigoOficial}">PN-001</td>
+                        <td th:text="${parque.nombre}">Nombre</td>
+                        <td th:text="${parque.ubicacion}">Ubicación</td>
+                        <td class="text-end"
+                            th:text="${parque.superficie != null} ? ${#numbers.formatDecimal(parque.superficie, 1, 'POINT', 2, 'COMMA')} : '-'">0,00</td>
+                        <td>
+                            <span class="badge text-bg-success"
+                                  th:text="${parque.tipoDescripcion} ?: 'Sin tipo'">Tipo</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(parques)}">
+                        <td colspan="6" class="text-center text-muted py-4">
+                            <i class="bi bi-inbox me-1"></i>No hay parques registrados.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
