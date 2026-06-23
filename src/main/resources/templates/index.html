@@ -39,25 +39,6 @@
             </div>
         </div>
 
-        <!-- Gestión de Tipos de Parque -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm card-menu text-center">
-                <div class="card-body d-flex flex-column">
-                    <div class="icono-card text-success mb-3">
-                        <i class="bi bi-tags-fill"></i>
-                    </div>
-                    <h5 class="card-title">Gestión de Tipos de Parque</h5>
-                    <p class="card-text text-muted flex-grow-1">
-                        Alta, baja, modificación y consulta de los tipos de parque
-                        utilizando procedimientos almacenados.
-                    </p>
-                    <a th:href="@{/tipos-parque}" class="btn btn-success mt-auto">
-                        <i class="bi bi-arrow-right-circle me-1"></i>Ingresar
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <!-- Importación CSV -->
         <div class="col-md-4">
             <div class="card h-100 shadow-sm card-menu text-center">
@@ -67,10 +48,10 @@
                     </div>
                     <h5 class="card-title">Importación de archivos CSV</h5>
                     <p class="card-text text-muted flex-grow-1">
-                        Importá un archivo CSV, generá el XML correspondiente y
-                        verificá el resultado de la operación.
+                        Consultá las organizaciones distinguidas registradas e
+                        importá nuevas desde un archivo CSV.
                     </p>
-                    <a th:href="@{/importacion}" class="btn btn-success mt-auto">
+                    <a th:href="@{/organizaciones-distinguidas}" class="btn btn-success mt-auto">
                         <i class="bi bi-arrow-right-circle me-1"></i>Ingresar
                     </a>
                 </div>
