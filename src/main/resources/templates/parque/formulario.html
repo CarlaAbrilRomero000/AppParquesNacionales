@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulario Parque')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <h2 class="mb-4 text-success-emphasis">
+                <i class="bi" th:classappend="${modoEdicion} ? 'bi-pencil-square' : 'bi-plus-circle'"></i>
+                <span th:text="${modoEdicion} ? 'Editar Parque' : 'Nuevo Parque'">Título</span>
+            </h2>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form th:action="@{/parques/guardar}" th:object="${parque}" method="post">
+                        <!-- id oculto: presente solo en edición -->
+                        <input type="hidden" th:field="*{idParque}">
+
+                        <div class="mb-3">
+                            <label for="codigoOficial" class="form-label">Código oficial</label>
+                            <input type="text" class="form-control"
+                                   id="codigoOficial" th:field="*{codigoOficial}"
+                                   placeholder="Ej: PN-001" maxlength="50" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control"
+                                   id="nombre" th:field="*{nombre}"
+                                   placeholder="Ej: Nahuel Huapi" maxlength="100" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ubicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control"
+                                   id="ubicacion" th:field="*{ubicacion}"
+                                   placeholder="Ej: Río Negro y Neuquén, Argentina" maxlength="255" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="superficie" class="form-label">Superficie (ha)</label>
+                            <input type="number" step="0.01" min="0.01" class="form-control"
+                                   id="superficie" th:field="*{superficie}"
+                                   placeholder="Ej: 717261.00" required>
+                            <div class="form-text">Debe ser mayor a cero.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idTipoParque" class="form-label">Tipo de parque</label>
+                            <select class="form-select" id="idTipoParque"
+                                    th:field="*{idTipoParque}" required>
+                                <option value="" th:selected="${parque.idTipoParque == null}">
+                                    -- Seleccione un tipo --
+                                </option>
+                                <option th:each="tipo : ${tipos}"
+                                        th:value="${tipo.idTipoParque}"
+                                        th:text="${tipo.descripcion}">Tipo</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a th:href="@{/parques}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Volver
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save me-1"></i>Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

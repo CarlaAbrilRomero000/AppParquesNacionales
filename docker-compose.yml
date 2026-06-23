@@ -36,6 +36,8 @@ services:
       DB_HOST: sqlserver
       DB_PORT: "1433"
       DB_NAME: ParqueNacionalesDB
+      # En el contenedor Linux se usa autenticación SQL (no Windows).
+      DB_INTEGRATED_SECURITY: "false"
       DB_USER: sa
       DB_PASSWORD: "Parques2024!"
     ports:
