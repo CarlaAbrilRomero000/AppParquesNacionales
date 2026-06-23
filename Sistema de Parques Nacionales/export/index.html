@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Parques Nacionales</title>
+
+  <!-- Fuente Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <div class="navbar__brand">
+        <span class="navbar__logo"><i class="bi bi-tree-fill"></i></span>
+        <span class="navbar__title">Parques Nacionales</span>
+      </div>
+      <div class="navbar__links">
+        <a href="#inicio"><i class="bi bi-house-door"></i>Inicio</a>
+        <a href="#parques"><i class="bi bi-tree"></i>Parques</a>
+        <a href="#csv"><i class="bi bi-filetype-csv"></i>Importación CSV</a>
+        <a href="#info"><i class="bi bi-info-circle"></i>Información</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="inicio">
+    <div class="hero__bg">
+      <div class="hero__slide is-active" style="background-image:url('img/parque-1.png')"></div>
+      <div class="hero__slide" style="background-image:url('img/parque-2.png')"></div>
+      <div class="hero__slide" style="background-image:url('img/parque-3.png')"></div>
+    </div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="hero__badge"><i class="bi bi-shield-check"></i>Portal Institucional</span>
+      <h1 class="hero__title">Sistema de Parques Nacionales</h1>
+      <p class="hero__subtitle">Plataforma para la gestión administrativa de parques nacionales. Consulta, administra y mantén actualizada la información de forma centralizada.</p>
+      <a href="#parques" class="btn btn--primary btn--lg"><i class="bi bi-tree-fill"></i>Explorar parques</a>
+    </div>
+    <div class="hero__dots">
+      <button class="hero__dot is-active" data-slide="0" aria-label="Imagen 1"></button>
+      <button class="hero__dot" data-slide="1" aria-label="Imagen 2"></button>
+      <button class="hero__dot" data-slide="2" aria-label="Imagen 3"></button>
+    </div>
+  </header>
+
+  <!-- MÓDULOS -->
+  <main class="section">
+    <div class="section__head">
+      <h2 class="section__title" id="parques">Módulos del sistema</h2>
+      <p class="section__lead">Accede a las funcionalidades principales para administrar la información de los parques nacionales.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__icon"><i class="bi bi-tree-fill"></i></div>
+        <h3 class="card__title">Listado de Parques</h3>
+        <p class="card__text">Consulta el catálogo completo de parques nacionales registrados, con su ubicación, superficie y datos administrativos.</p>
+        <a href="#parques" class="btn btn--primary"><i class="bi bi-box-arrow-in-right"></i>Ingresar</a>
+      </article>
+
+      <article class="card" id="csv">
+        <div class="card__icon"><i class="bi bi-filetype-csv"></i></div>
+        <h3 class="card__title">Importación de archivos CSV</h3>
+        <p class="card__text">Carga y actualiza la información de los parques de forma masiva a partir de archivos CSV, con validación de datos.</p>
+        <a href="#csv" class="btn btn--primary"><i class="bi bi-box-arrow-in-right"></i>Ingresar</a>
+      </article>
+
+      <article class="card">
+        <div class="card__icon"><i class="bi bi-info-circle-fill"></i></div>
+        <h3 class="card__title">Información del sistema</h3>
+        <p class="card__text">Conoce las tecnologías utilizadas y la arquitectura del sistema, desarrollado como trabajo práctico de bases de datos.</p>
+        <a href="#info" class="btn btn--primary"><i class="bi bi-box-arrow-in-right"></i>Ingresar</a>
+      </article>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="info">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <i class="bi bi-tree-fill"></i>
+        <span>Sistema de Parques Nacionales — Trabajo Práctico de Bases de Datos</span>
+      </div>
+      <span class="footer__tech">Java · HTML · CSS · Bootstrap Icons</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

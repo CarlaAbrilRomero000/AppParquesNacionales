@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    /** Página principal con el menú de opciones (tarjetas). */
-    @GetMapping("/")
+    /**
+     * Menú de opciones (tarjetas) de la aplicación.
+     * Se mueve de "/" a "/menu" porque la raíz la sirve ahora la landing
+     * estática (src/main/resources/static/index.html).
+     */
+    @GetMapping("/menu")
     public String inicio() {
         return "index";
     }

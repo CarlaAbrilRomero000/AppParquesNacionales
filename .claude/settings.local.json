@@ -18,7 +18,16 @@
       "PowerShell(try { \\(Invoke-WebRequest -Uri \"https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc_auth/maven-metadata.xml\" -UseBasicParsing\\).Content } catch { \"ERROR: $\\($_.Exception.Message\\)\" }.)",
       "PowerShell($log = \"C:\\\\Users\\\\secon\\\\OneDrive\\\\Escritorio\\\\PruebaApp\\\\target\\\\run-test2.log\"; $deadline = \\(Get-Date\\).AddSeconds\\(90\\); $ready=$false; while\\(\\(Get-Date\\) -lt $deadline\\){ if\\(Test-Path $log\\){ $c = Get-Content $log -Raw -ErrorAction SilentlyContinue; if\\($c -match \"Inicialización de base de datos completada\"\\){ $ready=$true; break }; if\\($c -match \"APPLICATION FAILED TO START\" -or $c -match \"UnsatisfiedLinkError\" -or $c -match \"BUILD FAILURE\" -or $c -match \"ERROR\"\\){ break } }; Start-Sleep -Seconds 3 }; \"ready=$ready\"; if\\($ready\\){ try { $r = Invoke-WebRequest -Uri \"http://localhost:8080/parques\" -UseBasicParsing -TimeoutSec 20; $codes = [regex]::Matches\\($r.Content, 'PN-\\\\d+'\\) | ForEach-Object { $_.Value } | Select-Object -Unique; \"HTTP $\\($r.StatusCode\\) - parques: $\\($codes.Count\\)\" } catch { \"REQ-ERROR: $\\($_.Exception.Message\\)\" } } else { Get-Content $log -Tail 20 })",
       "Bash(./mvnw -q compile)",
-      "Bash(mvn -q compile)"
+      "Bash(mvn -q compile)",
+      "Bash(echo \"=== exit: $? ===\")",
+      "Bash(./mvnw -q -o compile)",
+      "Bash(command -v mvn)",
+      "Bash(mvn -version)",
+      "Bash(break)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/importacion)",
+      "PowerShell(Get-Process *)",
+      "Bash(grep -cE '<tr>\\\\s*$|<td>[0-9]+</td>')"
     ]
   }
 }

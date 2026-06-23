@@ -1,6 +1,7 @@
 package org.example.parques.controller;
 
 import org.example.parques.service.ImportacionService;
+import org.example.parques.service.OrganizacionDistinguidaService;
 import org.example.parques.service.ResultadoImportacion;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ImportacionController {
 
     private final ImportacionService service;
+    private final OrganizacionDistinguidaService organizacionService;
 
-    public ImportacionController(ImportacionService service) {
+    public ImportacionController(ImportacionService service,
+                                 OrganizacionDistinguidaService organizacionService) {
         this.service = service;
+        this.organizacionService = organizacionService;
     }
 
-    /** Muestra el formulario de importación. */
+    /** Muestra el formulario de importación junto al listado de organizaciones en base. */
     @GetMapping
     public String mostrar(Model model) {
         model.addAttribute("ultimoXml", service.getUltimoXmlGenerado());
+        model.addAttribute("organizaciones", organizacionService.listar());
         return "importacion/index";
     }
 
