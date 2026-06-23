@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>Al ejecutarse levanta un servidor web embebido (Tomcat) accesible en
  * http://localhost:8080</p>
  */
+
 @SpringBootApplication
 public class ParquesApplication {
 

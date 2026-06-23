@@ -8,8 +8,11 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 text-success-emphasis">
-            <i class="bi bi-tree-fill me-2"></i>Listado de Parques
+            <i class="bi bi-tree-fill me-2"></i>Gestión de Parques
         </h2>
+        <a th:href="@{/parques/nuevo}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i>Nuevo Parque
+        </a>
     </div>
 
     <!-- Alertas de éxito / error -->
@@ -27,6 +30,7 @@
                         <th scope="col">Ubicación</th>
                         <th scope="col" class="text-end">Superficie (ha)</th>
                         <th scope="col">Tipo</th>
+                        <th scope="col" class="text-end" style="width: 220px;">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,9 +45,23 @@
                             <span class="badge text-bg-success"
                                   th:text="${parque.tipoDescripcion} ?: 'Sin tipo'">Tipo</span>
                         </td>
+                        <td class="text-end">
+                            <a th:href="@{/parques/editar/{id}(id=${parque.idParque})}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square me-1"></i>Editar
+                            </a>
+                            <!-- Eliminación con confirmación -->
+                            <form th:action="@{/parques/eliminar/{id}(id=${parque.idParque})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('¿Está seguro de eliminar este parque?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash me-1"></i>Eliminar
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(parques)}">
-                        <td colspan="6" class="text-center text-muted py-4">
+                        <td colspan="7" class="text-center text-muted py-4">
                             <i class="bi bi-inbox me-1"></i>No hay parques registrados.
                         </td>
                     </tr>
