@@ -9,24 +9,18 @@
         <div class="col-md-8 col-lg-7">
 
             <h2 class="mb-4 text-success-emphasis">
-                <i class="bi bi-filetype-csv me-2"></i>Importación de archivos CSV
+                <i class="bi bi-filetype-csv me-2"></i>Importación de Organizaciones Distinguidas
             </h2>
 
             <!-- Alertas de éxito / error -->
             <div th:replace="~{fragments/layout :: alertas}"></div>
 
-            <!-- Mensaje con el XML recién generado -->
-            <div th:if="${xmlGenerado}" class="alert alert-info shadow-sm">
-                <i class="bi bi-file-earmark-code me-2"></i>
-                Se generó el archivo XML: <strong th:text="${xmlGenerado}">archivo.xml</strong>
-            </div>
-
             <div class="card shadow-sm">
                 <div class="card-body">
                     <p class="text-muted">
-                        Seleccioná un archivo <strong>.csv</strong> y presioná
-                        <em>Importar</em>. El sistema procesará el archivo y generará
-                        un XML con los datos.
+                        Seleccioná un archivo <strong>.csv</strong> de organizaciones
+                        distinguidas y presioná <em>Importar</em>. El sistema validará
+                        el archivo y cargará los datos directamente en la base de datos.
                     </p>
 
                     <form th:action="@{/importacion}" method="post" enctype="multipart/form-data">
@@ -40,12 +34,6 @@
                         </button>
                     </form>
                 </div>
-            </div>
-
-            <!-- Último XML generado (persistente entre importaciones) -->
-            <div th:if="${ultimoXml}" class="mt-4 text-muted small">
-                <i class="bi bi-clock-history me-1"></i>
-                Último XML generado: <strong th:text="${ultimoXml}">ultimo.xml</strong>
             </div>
 
         </div>
